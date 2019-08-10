@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./toast.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="message({type: 'success', text: '成功'})">成功</button>
+    <button onclick="message({type: 'error', text: '错误'})">错误</button>
+    <button onclick="message({type: 'info', text: '信息'})">信息</button>
+    <button onclick="message({type: 'warn', text: '警告'})">警告</button>
+</body>
+</html>
