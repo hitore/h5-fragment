@@ -57,6 +57,7 @@
             var diff = target - num;
             var next = QuadraticEaseOut(s, num, diff, e);
             if (s < e) {
+                _toasts[uid].start += 1;
                 dom.style.transform = 'translate(-50%, ' + next + '%)';
                 animateSilde(dom, type, uid, fn);
             } else {
