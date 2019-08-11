@@ -1,6 +1,5 @@
 !function() {
-    var _start = 0;
-    var _end = 100;
+    var _toasts = {};
     var _delay = 1000;
     var _colorOptions = {
         error: '#f44336',
@@ -16,9 +15,18 @@
         dom.style = style;
         dom.innerHTML = data.text || 'null';
         document.body.appendChild(dom);
-        animateSilde(dom, 'silde-in', function() {
-            handleDelay(dom);
+        var uid = new Date().getTime();
+        _toasts[uid] = getInit();
+        animateSilde(dom, 'silde-in', uid, function() {
+            handleDelay(dom, uid);
         });
+    }
+
+    function getInit() {
+        return {
+            start: 0,
+            end: 100,
+        };
     }
 
     // 缓动算法
@@ -26,31 +34,33 @@
         return -c * ( t /= d ) * ( t - 2 ) + b;
     }
 
-    function handleDelay(dom) {
+    function handleDelay(dom, uid) {
         setTimeout(function() {
-            animateSilde(dom, 'silde-out', function() {
-                handleRemove(dom);
+            animateSilde(dom, 'silde-out', uid, function() {
+                handleRemove(dom, uid);
             });
         }, _delay);
     }
 
-    function handleRemove(dom) {
+    function handleRemove(dom, uid) {
         document.body.removeChild(dom);
+        delete _toasts[uid];
     }
 
-    function animateSilde(dom, type, fn) {
+    function animateSilde(dom, type, uid, fn) {
         var target = 0;
+        var s = _toasts[uid].start;
+        var e = _toasts[uid].end;
         if (type === 'silde-out') target = 100;
         window.requestAnimationFrame(function() {
             var num = ~~dom.style.transform.slice(16).replace(/\%|\)/g, '');
             var diff = target - num;
-            var next = QuadraticEaseOut(_start, num, diff, _end);
-            if (_start < _end) {
-                _start += 1;
+            var next = QuadraticEaseOut(s, num, diff, e);
+            if (s < e) {
                 dom.style.transform = 'translate(-50%, ' + next + '%)';
-                animateSilde(dom, type, fn);
+                animateSilde(dom, type, uid, fn);
             } else {
-                _start = 0;
+                _toasts[uid].start = 0;
                 dom.style.transform = 'translate(-50%, ' + target + '%)';
                 if (fn) fn();
             }
