@@ -24,6 +24,17 @@
           left: 20px;
           bottom: 20px;
         }
+        .btn-bubble {
+          width: 100px;
+          height: 30px;
+          background: #0366d6;
+          color: #fff;
+          margin: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -39,10 +50,17 @@
           setTimeout(loading.hide, 3000);
         }
       </script>
+      <div class="btn-bubble">bubble</div>
       <button class="goTop" onclick="myScrollTo(0)">go to top</button>
+      <script>
+        window.onload = function() {
+          var bubble = new Bubble('.btn-bubble');
+        }
+      </script>
   </div>
   <script src="./toast.js"></script>
   <script src="./scroll.js"></script>
   <script src="./loading.js"></script>
+  <script src="./bubble.js"></script>
 </body>
 </html>
