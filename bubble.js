@@ -1,6 +1,7 @@
 !function() {
   function Bubble(key) {
     var self = this;
+    this.key = key.slice(1);
     this.selecters = $(key);
     this.pool = {};
     this.bindEventClick = bindEventClick;
@@ -20,6 +21,7 @@
       select.addEventListener('mousedown', function(e) {
         // 阻止冒泡
         e.stopPropagation();
+        // e.preventDefault();
         if (e.button === 0) handleClick.call(self, e);
       }, true);
     }
@@ -29,6 +31,13 @@
     // var self = this;
     var uid = new Date().getTime();
     var target = e.target;
+    
+    // TODO: 尝试防止这种情况出现
+    if (target.classList.value.indexOf(this.key) < 0) {
+      console.warn('DOMException: Event listener try to bind on incorrect Node.');
+      return;
+    }
+
     var dom = document.createElement('div');
     dom.style = 'position: absolute; left: 0; right: 0; top: 0; bottom: 0; pointer-events: none;';
     target.style.position = 'relative';
