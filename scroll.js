@@ -8,7 +8,11 @@
   function myScrollTo(top) {
     if (_scrolling) return;
     _scrolling = true;
+    var scrollHeight = document.body.scrollHeight || document.body.clientHeight;
+    var visible = window.screen.height;
+    var maxHeight = scrollHeight - visible;
     if (top <= 0)  top = 0;
+    if (top >= maxHeight) top = maxHeight;
     animateScroll(top);
   }
 

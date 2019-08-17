@@ -5,18 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script src="./toast.js"></script>
     <style>
         * {
             padding: 0;
             margin: 0;
         }
+        #app{
+          position: relative;
+          width: 100%;
+          max-width: 750px;
+          margin: 0 auto;
+          background: url("http://pic14.nipic.com/20110523/2791230_110223399768_2.png");
+          background-size: 100% auto;
+          height: 500vh;
+        }
+        .goTop{
+          position: fixed;
+          left: 20px;
+          bottom: 20px;
+        }
     </style>
 </head>
 <body>
-    <button onclick="message({type: 'success', text: '成功'})">成功</button>
-    <button onclick="message({type: 'error', text: '错误'})">错误</button>
-    <button onclick="message({type: 'info', text: '信息'})">信息</button>
-    <button onclick="message({type: 'warn', text: '警告'})">警告</button>
+  <div id="app">
+      <button onclick="message({type: 'success', text: '成功'})">成功</button>
+      <button onclick="message({type: 'error', text: '错误'})">错误</button>
+      <button onclick="message({type: 'info', text: '信息'})">信息</button>
+      <button onclick="message({type: 'warn', text: '警告'})">警告</button>
+      <button class="goTop" onclick="myScrollTo(0)">go to top</button>
+  </div>
+  <script src="./toast.js"></script>
+  <script src="./scroll.js"></script>
 </body>
 </html>
