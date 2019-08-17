@@ -38,7 +38,7 @@
     </style>
 </head>
 <body>
-  <div id="app">
+  <div id="app" class="bubble">
       <button onclick="message({type: 'success', text: '成功'})">成功</button>
       <button onclick="message({type: 'error', text: '错误'})">错误</button>
       <button onclick="message({type: 'info', text: '信息'})">信息</button>
@@ -50,11 +50,12 @@
           setTimeout(loading.hide, 3000);
         }
       </script>
-      <div class="btn-bubble">bubble</div>
+      <div class="btn-bubble bubble">bubble</div>
+      <div class="btn-bubble bubble">bubble</div>
       <button class="goTop" onclick="myScrollTo(0)">go to top</button>
       <script>
         window.onload = function() {
-          var bubble = new Bubble('.btn-bubble');
+          var bubble = new Bubble('.bubble');
         }
       </script>
   </div>
