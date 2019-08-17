@@ -32,9 +32,17 @@
       <button onclick="message({type: 'error', text: '错误'})">错误</button>
       <button onclick="message({type: 'info', text: '信息'})">信息</button>
       <button onclick="message({type: 'warn', text: '警告'})">警告</button>
+      <button onclick="test()">loading</button>
+      <script>
+        function test() {
+          loading.show();
+          setTimeout(loading.hide, 3000);
+        }
+      </script>
       <button class="goTop" onclick="myScrollTo(0)">go to top</button>
   </div>
   <script src="./toast.js"></script>
   <script src="./scroll.js"></script>
+  <script src="./loading.js"></script>
 </body>
 </html>
