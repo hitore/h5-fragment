@@ -44,7 +44,7 @@
   function bubbleAnimate(uid) {
     var bubbleInfo = this.pool[uid];
     var circle = document.createElement('div');
-    var style = 'position: absolute; border-radius: 50%; background: rgba(255,255,255,.5); transform: scale(0.1);';
+    var style = 'position: absolute; border-radius: 50%; background: #fff; opacity: 0.3; transform: scale(0.1);';
     var max = Math.max(bubbleInfo.width, bubbleInfo.height);
     var size = 2 * max;
     style += 'left: ' + (bubbleInfo.x - max) + 'px;';
@@ -65,8 +65,15 @@
     window.requestAnimationFrame(function() {
       var current = parseFloat(/scale\((.+)\)/.exec(circle.style.transform)[1]);
       var diff = targe - current;
-      if (bubbleInfo.start + 20 < bubbleInfo.end) {
+      if (bubbleInfo.start < bubbleInfo.end) {
         bubbleInfo.start += 1;
+        if (bubbleInfo.start > 10) {
+          var targetOpacity = 0;
+          var currentOpacity = parseFloat(circle.style.opacity);
+          var diffOpacity = targetOpacity - currentOpacity;
+          var nextOpacity = SineEaseOut(bubbleInfo.start - 10, currentOpacity, diffOpacity, bubbleInfo.end);
+          circle.style.opacity = nextOpacity;
+        }
         var next = SineEaseOut(bubbleInfo.start, current, diff, bubbleInfo.end);
         circle.style.transform = 'scale(' + next + ')';
         changeScale.call(self, uid);
