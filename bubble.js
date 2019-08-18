@@ -1,17 +1,15 @@
 !function() {
   function Bubble(key) {
-    var self = this;
-    this.key = key.slice(1);
+    this.bgColor = '#fff';
+    this.key = key;
     this.selecters = $(key);
     this.pool = {};
     this.bindEventClick = bindEventClick;
     this.bubbleAnimate = bubbleAnimate;
     this.changeScale = changeScale;
     this.removeBubble = removeBubble;
-
-    this.init = function() {
-      self.bindEventClick();
-    }();
+    this.setBgColor = setBgColor;
+    this.init = this.bindEventClick();
   }
 
   function bindEventClick() {
@@ -19,9 +17,6 @@
     for (let i = 0; i < this.selecters.length; i += 1) {
       var select = this.selecters[i];
       select.addEventListener('mousedown', function(e) {
-        // 阻止冒泡
-        e.stopPropagation();
-        // e.preventDefault();
         if (e.button === 0) handleClick.call(self, e);
       }, true);
     }
@@ -32,17 +27,24 @@
     var uid = new Date().getTime();
     var target = e.target;
     
-    // TODO: 尝试防止这种情况出现
-    if (target.classList.value.indexOf(this.key) < 0) {
+    // 检查是否父节点
+    var isFather = false;
+    for (let i = 0; i < this.selecters.length; i += 1) {
+      if (this.selecters[i] === target) {
+        isFather = true;
+      }
+    }
+    if (!isFather) {
       console.warn('DOMException: Event listener try to bind on incorrect Node.');
       return;
     }
 
     var dom = document.createElement('div');
     dom.style = 'position: absolute; left: 0; right: 0; top: 0; bottom: 0; pointer-events: none;';
-    target.style.position = 'relative';
-    target.style.overflow = 'hidden';
 
+    var currentPosition = window.getComputedStyle(target).position;
+    target.style.position = currentPosition === 'static' ? 'relative' : currentPosition;
+    target.style.overflow = 'hidden';
     target.appendChild(dom);
 
     this.pool[uid] = {
@@ -74,7 +76,8 @@
   function bubbleAnimate(uid) {
     var bubbleInfo = this.pool[uid];
     var circle = document.createElement('div');
-    var style = 'position: absolute; border-radius: 50%; background: #fff; opacity: 0.3; transform: scale(0.1);';
+    var style = 'position: absolute; border-radius: 50%; opacity: 0.3; transform: scale(0.1);';
+    style += 'background: ' + this.bgColor + ';';
     var max = Math.max(bubbleInfo.width, bubbleInfo.height);
     var size = 2 * max;
     style += 'left: ' + (bubbleInfo.x - max) + 'px;';
@@ -123,24 +126,19 @@
         bubbleInfo.opacityStart += 1;
         circle.style.opacity = next;
         self.removeBubble(uid);
-      } else {
+      } else if (!bubbleInfo.finish) {
+        bubbleInfo.finish = true;
         circle.style.opacity = target;
-
-        // TODO: 判断子节点是否存在
-        try {
-          bubbleInfo.target.removeChild(bubbleInfo.bubble);
-        } catch(e) {
-          console.warn(e);
-        }
-        
+        bubbleInfo.target.removeChild(bubbleInfo.bubble);
         bubbleInfo.target.removeEventListener('mouseup', self.pool[uid].listener);
         bubbleInfo.target.removeEventListener('mouseleave', self.pool[uid].listener);
-
-        setTimeout(function() {
-          delete self.pool[uid];
-        }, 500);
+        delete self.pool[uid];
       }
     });
+  }
+
+  function setBgColor(color) {
+    this.bgColor = color;
   }
 
   function SineEaseOut(t, b, c, d){

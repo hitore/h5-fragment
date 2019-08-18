@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        #app{
+          position: relative;
+          width: 100%;
+          max-width: 750px;
+          margin: 0 auto;
+          background: url("http://pic14.nipic.com/20110523/2791230_110223399768_2.png");
+          background-size: 100% auto;
+          height: 500vh;
+        }
+        .btn-bubble {
+          width: 100px;
+          height: 40px;
+          background: #0366d6;
+          color: #fff;
+          margin: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+  <div id="app">
+      <div style="background: #4caf50;" onclick="message({type: 'success', text: '成功'})" class="btn-bubble">成功</div>
+      <div style="background: #f44336;" onclick="message({type: 'error', text: '错误'})" class="btn-bubble">错误</div>
+      <div onclick="message({type: 'info', text: '信息'})" class="btn-bubble">信息</div>
+      <div style="background: #fdd835;" onclick="message({type: 'warn', text: '警告'})" class="btn-bubble">警告</div>
+      <script>
+          window.onload = function() {
+            var bubble = new Bubble('.btn-bubble');
+          }
+      </script>
+  </div>
+  <script src="../toast.js"></script>
+  <script src="../bubble.js"></script>
+</body>
+</html>

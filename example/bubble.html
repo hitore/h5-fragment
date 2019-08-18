@@ -19,11 +19,6 @@
           background-size: 100% auto;
           height: 500vh;
         }
-        .goTop{
-          position: fixed;
-          left: 20px;
-          bottom: 20px;
-        }
         .btn-bubble {
           width: 100px;
           height: 40px;
@@ -39,29 +34,23 @@
 </head>
 <body>
   <div id="app">
-      <button onclick="message({type: 'success', text: '成功'})">成功</button>
-      <button onclick="message({type: 'error', text: '错误'})">错误</button>
-      <button onclick="message({type: 'info', text: '信息'})">信息</button>
-      <button onclick="message({type: 'warn', text: '警告'})">警告</button>
-      <button onclick="test()">loading</button>
-      <script>
-        function test() {
-          loading.show();
-          setTimeout(loading.hide, 3000);
-        }
-      </script>
+      <div class="btn-bubble black-bubble">bubble</div>
       <div class="btn-bubble bubble">bubble</div>
       <div class="btn-bubble bubble">bubble</div>
-      <button class="goTop aaasd asda" onclick="myScrollTo(0)">go to top</button>
       <script>
-        window.onload = function() {
-          var bubble = new Bubble('.bubble');
-        }
+          window.onload = function() {
+            var bubble = new Bubble('.black-bubble');
+            // 设置bubble背景色
+            bubble.setBgColor('rgb(0,0,0)');
+
+            // querySelectorAll选择器
+            var normal = new Bubble('.bubble');
+
+            var app = new Bubble('#app');
+            app.setBgColor('#000');
+          }
       </script>
   </div>
-  <script src="./toast.js"></script>
-  <script src="./scroll.js"></script>
-  <script src="./loading.js"></script>
-  <script src="./bubble.js"></script>
+  <script src="../bubble.js"></script>
 </body>
 </html>
