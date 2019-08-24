@@ -46,7 +46,7 @@
     var div = document.createElement('div');
     var inner = document.createElement('div');
     inner.innerHTML = _svg;
-    var style = 'position: fixed; left: 50%; top: 0; transform: translate(-50%, 0); width: 100%; height: 100vh; background: rgba(0,0,0); opacity: 0; max-width: 750px; z-index: 999; display: flex; align-items: center; justify-content: center;';
+    var style = 'position: fixed; left: 50%; top: 0; transform: translate(-50%, 0); width: 100%; height: 100vh; background: rgb(0,0,0); opacity: 0; max-width: 750px; z-index: 999; display: flex; align-items: center; justify-content: center;';
     var innerStyle = 'animation: rotateAnimate 2s linear infinite; display: flex; align-items: center; justify-content: center;';
     div.style = style;
     inner.style = innerStyle;
