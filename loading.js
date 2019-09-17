@@ -64,6 +64,7 @@
         fadeAnimate(type, fn);
         return;
       }
+      if (_loadingDom === null) return;
       var current = parseFloat(_loadingDom.style.opacity);
       var diff = target - current;
       var next = SineEaseOut(start, current, diff, _end);
