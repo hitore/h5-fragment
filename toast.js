@@ -10,7 +10,7 @@
 
     function message(data) {
         var dom = document.createElement('div');
-        var style = 'padding: 0 20px; border-radius: 2px; box-sizing: border-box; color: #fff; display: flex; align-items: center; position: fixed; left: 50%; bottom: 0; transform: translate(-50%, 100%); width: 100%; max-width: 750px; height: 40px; box-shadow: 0 -2px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12); z-index: 9999;';
+        var style = 'padding: 0 20px; border-radius: 2px; box-sizing: border-box; color: #fff; display: flex; align-items: center; position: fixed; left: 50%; bottom: 0; transform: translate(-50%, 100%); width: 100%; max-width: 750px; height: 40px; box-shadow: 0 -2px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12); z-index: 9999;font-size: 14px;';
         style += 'background: ' + _colorOptions[data.type] || '#000' + ';';
         dom.style = style;
         dom.innerHTML = data.text || 'null';
