@@ -15,15 +15,19 @@ function myPromise(fn) {
 
 
     function resolve(val) {
-        self.status = 'fulfilled';
-        self.resolveVal = val;
-        self.resolveList.forEach(cb => cb());
+        setTimeout(() => {
+            self.status = 'fulfilled';
+            self.resolveVal = val;
+            self.resolveList.forEach(cb => cb());
+        }, 0)
     }
 
     function reject(val) {
-        self.status = 'rejected';
-        self.rejectVal = val;
-        self.rejectList.forEach(cb => cb());
+        setTimeout(() => {
+            self.status = 'rejected';
+            self.rejectVal = val;
+            self.rejectList.forEach(cb => cb());
+        }, 0)
     }
 
     try {
@@ -34,37 +38,56 @@ function myPromise(fn) {
     
 }
 myPromise.prototype.then = function(onFulfilled, onRejected) {
-    if (this.status === 'fulfilled') {
-        onFulfilled(this.resolveVal);
-    }
-    if (this.status === 'padding') {
-        this.resolveList.push(() => {
+    return new myPromise((resolve, reject) => {
+        if (this.status === 'fulfilled') {
             onFulfilled(this.resolveVal);
-        });
-        this.rejectList.push(() => {
-            onRejected(this.rejectVal);
-        });
-    }
-    return this;
+        }
+
+        if (this.status === 'padding') {
+            this.resolveList.push(() => {
+                let result = onFulfilled(this.resolveVal);
+                if (result instanceof myPromise) {
+                    result.then(resolve);
+                } else {
+                    resolve(result);
+                }
+            });
+            this.rejectList.push(() => {
+                let result = onRejected(this.rejectVal);
+                if (result instanceof myPromise) {
+                    result.then(reject);
+                } else {
+                    reject(result);
+                }
+            });
+        }
+    });
 }
 
 myPromise.prototype.catch = function(onRejected) {
-    if (this.status === 'rejected') {
-        onRejected(this.rejectVal);
-    }
-    if (this.status === 'padding') {
-        this.rejectList.push(() => {
+    return new myPromise((resolve, reject) => {
+        if (this.status === 'rejected') {
             onRejected(this.rejectVal);
-        });
-    }
-    return this;
+        }
+
+        if (this.status === 'padding') {
+            this.rejectList.push(() => {
+                let result = onRejected(this.rejectVal);
+                if (result instanceof myPromise) {
+                    result.then(reject);
+                } else {
+                    reject(result);
+                }
+            });
+        }
+    });
 }
 
 function foo() {
     return new myPromise((resolve, reject) => {
         setTimeout(() => {
             resolve({ a: 1, b: 2 });
-        }, 2000);
+        }, 500);
     });
 }
 
@@ -80,6 +103,12 @@ function foo() {
 foo()
     .then(res => {
         console.log('request result', res);
+        return new myPromise(resolve => {
+            setTimeout(() => {
+                console.log(500);
+                resolve()
+            }, 500);
+        });
     })
     .then(() => {
         console.log('more');
